@@ -279,39 +279,86 @@ def collect_all_jobs_parallel(driver, search_urls):
     logger.info(f"Total unique job links collected: {len(unique_links)}")
     return unique_links
 
-
 def click_apply_button(driver, link):
-    """
-    Try to click the Apply button on a job detail page.
-    Updated: Naukri.com now uses "Apply on company site" button text.
+    time.sleep(3)
 
-    Returns True if applied successfully, False otherwise.
-    """
-    # First, wait for the page to load
-    time.sleep(4)
+    try:
+        driver.find_element(By.ID, "company-site-button")
+        return "COMPANY_SITE"
+    except:
+        pass
 
-    # Try to find and click the apply button (updated selector)
-    # New: button text is "Apply on company site", id="company-site-button"
     apply_selectors = [
-        (By.XPATH, "//button[contains(text(),'Apply on company site')]"),
         (By.XPATH, "//button[contains(text(),'Apply')]"),
-        (By.ID, "company-site-button"),
-        (By.CSS_SELECTOR, "button[class*='company-site-button']"),
         (By.CSS_SELECTOR, "[class*='apply-button-container'] button"),
     ]
 
     for by, selector in apply_selectors:
         try:
-            apply_btn = WebDriverWait(driver, 3).until(
+            btn = WebDriverWait(driver,3).until(
                 EC.element_to_be_clickable((by, selector))
             )
-            apply_btn.click()
-            return True
-        except (TimeoutException, NoSuchElementException):
-            continue
+            btn.click()
+            return "EASY_APPLY"
+        except:
+            pass
 
-    return False
+    return "NOT_FOUND"
 
+def save_company_site_job(driver, naukri_url):
+    old_windows = driver.window_handles
+
+    btn = WebDriverWait(driver, 5).until(
+        EC.element_to_be_clickable((By.ID, "company-site-button"))
+    )
+
+    btn.click()
+
+    WebDriverWait(driver, 10).until(
+        lambda d: len(d.window_handles) > len(old_windows)
+    )
+
+    new_window = [w for w in driver.window_handles if w not in old_windows][0]
+
+    driver.switch_to.window(new_window)
+
+    WebDriverWait(driver, 10).until(
+        lambda d: d.current_url != "about:blank"
+    )
+
+    company_url = driver.current_url
+
+    try:
+        title = driver.find_element(By.TAG_NAME, "h1").text
+    except:
+        title = ""
+
+    company = ""
+
+    try:
+        company = driver.find_element(By.CSS_SELECTOR, "a.comp-name").text
+    except:
+        pass
+
+    df = pd.DataFrame([{
+        "Company": company,
+        "Job Title": title,
+        "Company URL": company_url,
+        "Naukri URL": naukri_url
+    }])
+
+    csv = "company_site_jobs.csv"
+
+    if os.path.exists(csv):
+        df.to_csv(csv, mode="a", header=False, index=False)
+    else:
+        df.to_csv(csv, index=False)
+
+    driver.close()
+
+    driver.switch_to.window(old_windows[0])
+
+    logger.info(f"Saved company site: {company_url}")
 
 def apply_to_jobs(driver, job_links):
     """
@@ -341,16 +388,19 @@ def apply_to_jobs(driver, job_links):
             continue
 
         # --- Click the "Apply" button ---
-        if click_apply_button(driver, link):
-            applied += 1
-            applied_list['passed'].append(link)
-            logger.info(f"  ✓ Applied! Total: {applied}")
-            time.sleep(2)
-        else:
-            failed += 1
-            applied_list['failed'].append(link)
-            logger.warning(f"  ✗ No Apply button found. Fail count: {failed}")
+        result = click_apply_button(driver, link)
+
+        if result == "COMPANY_SITE":
+            save_company_site_job(driver, link)
             continue
+
+        if result == "NOT_FOUND":
+            failed += 1
+            applied_list["failed"].append(link)
+            continue
+
+        applied += 1
+        applied_list["passed"].append(link)
 
         # --- Handle any additional fields (first/last name, submit) ---
         # Note: These handlers remain from the original script but the new Naukri
@@ -459,7 +509,7 @@ def main():
     finally:
         if driver:
             try:
-                driver.quit()
+                # driver.quit()
                 logger.info("Browser closed.")
             except Exception:
                 pass
