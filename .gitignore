@@ -11,6 +11,7 @@ __pycache__/
 
 # Output CSV files
 naukriapplied.csv
+answer_bank.json
 
 # IDE/editor files
 .vscode/

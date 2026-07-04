@@ -97,6 +97,7 @@ MAX_APPLICATIONS=50
 
 ```bash
 python Naukri-Edge.py
+python Naukri-Edge.py helpMe
 ```
 
 > **Note:** The script uses `webdriver-manager` to automatically download the correct EdgeDriver. No manual driver setup needed!

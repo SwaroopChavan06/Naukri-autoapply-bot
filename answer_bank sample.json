@@ -1,0 +1,68 @@
+{
+  "name": "Your Name",
+  "total experience": "X years",
+  "current role": "Software Developer",
+  "current company": "ABC Technologies (Product-based Company)",
+  "current location": "Your Current City, State",
+  "preferred location": "Remote / City 1 / City 2 / City 3",
+  "notice period": "Immediate Joiner / 15 Days / 30 Days",
+  "current ctc": "X LPA",
+  "expected ctc": "Y LPA",
+  "highest qualification": "Bachelor's Degree in Computer Science",
+  "graduation year": "YYYY",
+
+  "java experience": "X years",
+  "spring boot experience": "X months / years",
+  "node js experience": "X years",
+  "golang experience": "X years",
+  "react js experience": "X years",
+  "javascript experience": "X years",
+  "typescript experience": "X years",
+
+  "backend": "Java, Spring Boot, Node.js, Express.js, REST APIs",
+  "frontend": "React.js, HTML, CSS, JavaScript",
+  "database": "MongoDB, MySQL, PostgreSQL",
+  "cloud": "AWS / Azure / GCP",
+  "tools": "Git, GitHub, Postman, VS Code, IntelliJ IDEA",
+  "os": "Windows, Linux",
+
+  "microservices": "X years",
+  "docker": "X years",
+  "kubernetes": "X years",
+  "kafka": "X years",
+  "redis": "X years",
+
+  "oop": "Strong / Intermediate / Basic",
+  "dsa": "Strong / Intermediate / Basic",
+  "system design": "Strong / Intermediate / Basic",
+  "design patterns": "Strong / Intermediate / Basic",
+
+  "api development": "Yes / No",
+  "rest api": "Yes / No",
+  "jwt authentication": "Yes / No",
+  "oauth": "Basic / Intermediate / Advanced",
+
+  "current project": "Brief description of your current project.",
+  "domain": "FinTech / Healthcare / E-commerce / EdTech / Telecom / SaaS",
+  "payment gateway": "Razorpay / Stripe / PayPal / Cashfree / None",
+  "aws services": "EC2, S3, IAM, CloudWatch, Lambda, RDS",
+
+  "strengths": "Problem solving, Backend Development, Fast learner, Team player",
+  "weakness": "Mention a genuine weakness along with how you're improving it.",
+  "reason for switch": "Looking for better learning opportunities, challenging projects, and career growth.",
+  "why should we hire you": "Briefly explain your technical strengths, learning ability, and impact.",
+  "why this company": "Explain how the role aligns with your career goals.",
+
+  "available for interview": "Yes / No",
+  "remote work": "Yes / No",
+  "relocation": "Yes / No",
+  "work authorization": "Yes / No",
+
+  "github": "https://github.com/yourusername",
+  "linkedin": "https://linkedin.com/in/yourprofile",
+  "portfolio": "https://yourportfolio.com",
+  "leetcode": "https://leetcode.com/u/yourusername",
+
+  "email": "your.email@example.com",
+  "phone": "+91 XXXXXXXXXX"
+}
